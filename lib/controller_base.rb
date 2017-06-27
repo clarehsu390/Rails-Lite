@@ -26,6 +26,7 @@ class ControllerBase
     @res.status = 302
 
     @already_built_response = true
+    session.store_session(@res)
   end
 
   # Populate the response with content.
@@ -38,6 +39,7 @@ class ControllerBase
     @res['Content-Type'] = content_type
 
     @already_built_response = true
+    session.store_session(@res) #call on instance of session(using session method)
 
   end
 
@@ -52,11 +54,12 @@ class ControllerBase
     render_content(ERB.new(rendered).result(binding), content_type = 'text/html')
 
 
-
   end
 
   # method exposing a `Session` object
-  def session
+  def session #instance of Session
+    @session ||= Session.new(@req)
+
   end
 
   # use this with the router to call action_name (:index, :show, :create...)
