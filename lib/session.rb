@@ -6,18 +6,19 @@ class Session
   def initialize(req)
     cookie = req.cookies['rails_lite_app']
     if cookie
-      @data = 
+      @info = JSON.parse(cookie)
     else
-      @path = {}
+      @info = {}
+    end
 
   end
 
   def [](key)
-    self[key]
+    @info[key]
   end
 
   def []=(key, val)
-    self[key] = val
+    @info[key] = val
   end
 
   # serialize the hash into json and save in a cookie
