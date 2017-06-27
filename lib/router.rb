@@ -24,16 +24,17 @@ class Router
   attr_reader :routes
 
   def initialize
+    @routes = []
+  end
+
+  # simply adds a new route to the list of routes
+  def add_route(pattern, method, controller_class, action_name)
     @routes << Route.new(
     pattern,
     method,
     controller_class,
     action_name
     )
-  end
-
-  # simply adds a new route to the list of routes
-  def add_route(pattern, method, controller_class, action_name)
   end
 
   # evaluate the proc in the context of the instance
@@ -51,6 +52,7 @@ class Router
 
   # should return the route that matches this request
   def match(req)
+    routes.find {|route| route.matches?(req)}
   end
 
   # either throw 404 or call run on a matched route
